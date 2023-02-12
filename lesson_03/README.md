@@ -1,4 +1,4 @@
-# postgresql_course lesson 1
+# postgresql_course lesson 3
 Домашнее задание
 
 Установка и настройка PostgteSQL в контейнере Docker
