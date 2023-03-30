@@ -83,10 +83,42 @@ user-vm01-yc@vm01-yc:~$
 ```
 7. дальше настроить autovacuum максимально эффективно
 ```
-дальше не  понял...как это сделать и что значит максимально эффективно в контексте этого задания
+настроил максимально агрессивно, похоже на ненагруженной БД это синоним максимально эффективно
+
+log_autovacuum_min_duration = 0
+autovacuum_max_workers = 10
+autovacuum_naptime = 15s
+autovacuum_vacuum_threshold = 25
+autovacuum_vacuum_scale_factor = 0.05
+autovacuum_vacuum_cost_delay = 10
+autovacuum_vacuum_cost_limit = 1000
 ```
 8. построить график по получившимся значениям так чтобы получить максимально ровное значение tps
 ```
-тоже не понял... пролистал урок, дмал прослушал
+sudo -u postgres pgbench -c8 -P 60 -T 600 postgres
+pgbench (14.7 (Ubuntu 14.7-1.pgdg22.04+1))
+starting vacuum...end.
+progress: 60.0 s, 389.7 tps, lat 20.519 ms stddev 22.288
+progress: 120.0 s, 413.9 tps, lat 19.329 ms stddev 23.423
+progress: 180.0 s, 395.6 tps, lat 20.216 ms stddev 21.169
+progress: 240.0 s, 394.1 tps, lat 20.298 ms stddev 19.075
+progress: 300.0 s, 376.9 tps, lat 21.229 ms stddev 24.310
+progress: 360.0 s, 408.4 tps, lat 19.587 ms stddev 19.650
+progress: 420.0 s, 360.1 tps, lat 22.220 ms stddev 28.696
+progress: 480.0 s, 382.5 tps, lat 20.914 ms stddev 19.554
+progress: 540.0 s, 447.3 tps, lat 17.886 ms stddev 17.519
+progress: 600.0 s, 369.4 tps, lat 21.652 ms stddev 24.168
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 1
+query mode: simple
+number of clients: 8
+number of threads: 1
+duration: 600 s
+number of transactions actually processed: 236281
+latency average = 20.314 ms
+latency stddev = 22.100 ms
+initial connection time = 15.245 ms
+tps = 393.780945 (without initial connection time)
+
 ```
 
