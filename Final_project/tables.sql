@@ -15,14 +15,6 @@ CREATE TABLE otus.securities (
 	CONSTRAINT securities_un UNIQUE (secid)
 );
 
-INSERT INTO otus.securities
-(id, secid, shortname, regnumber, "name", isin, is_traded, gosreg, "type", "group", primary_boardid, marketprice_boardid)
-VALUES(1, 'RTSI', 'Индекс РТС', '', 'Индекс РТС', 'RU000A0JPEB3', 1, '', 'stock_index', 'stock_index', 'RTSI', '');
-
-INSERT INTO otus.securities
-(id, secid, shortname, regnumber, "name", isin, is_traded, gosreg, "type", "group", primary_boardid, marketprice_boardid)
-VALUES(2, 'GAZP', 'ГАЗПРОМ ао', '1-02-00028-A', '"Газпром" (ПАО) ао', 'RU0007661625', 1, '1-02-00028-A', 'common_share', 'stock_shares', 'TQBR', 'TQBR');
-
 CREATE TABLE otus.quotes_d (
 	"security" int4 NOT NULL,
 	"time" timestamp not NULL,
@@ -30,10 +22,20 @@ CREATE TABLE otus.quotes_d (
 	hi numeric(20, 10) NULL,
 	lo numeric(20, 10) NULL,
 	"close" numeric(20, 10) NULL,
-	volume numeric(20, 10) NULL,
+	volume numeric(30, 10) NULL,
 	CONSTRAINT quotes_d_fk FOREIGN KEY ("security") REFERENCES otus.securities(id),
 	constraint quotes_d_fk2 FOREIGN KEY ("time") references otus.period_d("time"),
 	CONSTRAINT quotes_d_un UNIQUE ("security","time")
+);
+
+CREATE TABLE otus.buff_quotes_d (
+	secid varchar(51) not NULL,
+	"time" timestamp not NULL,
+	"open" numeric(20, 10) NULL,
+	hi numeric(20, 10) NULL,
+	lo numeric(20, 10) NULL,
+	"close" numeric(20, 10) NULL,
+	volume numeric(30, 10) NULL
 );
 
 create table otus.period_d (
@@ -44,4 +46,4 @@ create table otus.period_d (
 	CONSTRAINT period_d_pk PRIMARY KEY ("time")
 ); 
 
-insert into period_d("time") SELECT generate_series(timestamp '2000-01-01', '2030-01-01', '1 day');
+
